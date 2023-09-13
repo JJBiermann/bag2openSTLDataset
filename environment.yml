@@ -8,5 +8,5 @@ dependencies:
   - opencv
   - ros-rosbag
   - pillow  # Optional, for image processing if needed
-  - cv-bridge  # Install cv-bridge from the conda-forge channel
+  - ros-cv-bridge  # Install cv-bridge from the conda-forge channel
 
