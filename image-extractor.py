@@ -1,7 +1,6 @@
 import rosbag
-import cv2
-from cv_bridge import CvBridge
 import os
+
 
 class ImageExtractor:
 
@@ -9,23 +8,17 @@ class ImageExtractor:
         self.topics = topics
 
     def extract_images_from_rosbag(self, rosbag_file):
+
         # Open the ROS bag file
         bag = rosbag.Bag(rosbag_file, 'r')
 
-        # Initialize a CvBridge to convert ROS Image messages to OpenCV images
-        bridge = CvBridge()
-
         # Iterate through the messages in the bag file
-        for topic, msg, t in bag.read_messages(self.topics):
-            try:
-                # Convert the ROS Image message to an OpenCV image
-                cv_image = bridge.imgmsg_to_cv2(msg, desired_encoding="bgr8")
+        for idx, (topic, msg, t) in enumerate(bag.read_messages(topics=['/camera/image_raw'])):
+            if msg._type == 'sensor_msgs/Image':  # Check if it's an image message
 
-                # yield the image here to create an iterator
-                yield cv_image
-
-            except Exception as e:
-                print("Error converting ROS Image to OpenCV image:", str(e))
+                # Extract the image data as raw bytes
+                image_data = bytes(msg.data)
+                yield image_data
 
         # Close the ROS bag file when done
         bag.close()
@@ -42,11 +35,17 @@ if __name__ == "__main__":
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
 
-    for idx, image in enumerate(image_iterator):
-        # Define the output file path (e.g., output_images/image_001.jpg)
-        output_file_path = os.path.join(output_directory, f"image_{idx:04d}.jpg")
+    for idx, image_data in enumerate(image_iterator):
+        try:
+            # Define the output file path (e.g., output_images/image_001.jpg)
+            output_file_path = os.path.join(output_directory, f"image_{idx:04d}.jpg")
 
-        # Save the image to the specified output path
-        cv2.imwrite(output_file_path, image)
+            # Save the image data to the specified output path
+            with open(output_file_path, 'wb') as image_file:
+                image_file.write(image_data)
+                print(f"Saved {idx + 1} images to {output_directory}")
 
-    print(f"Saved {idx + 1} images to {output_directory}")
+
+        except Exception as e:
+            print(f"Error saving image {idx}: {str(e)}")
+

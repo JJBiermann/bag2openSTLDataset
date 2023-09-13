@@ -4,7 +4,7 @@ channels:
   - defaults
 dependencies:
   - python=3.9  # You can specify your desired Python version
-  - opencv
+  #- opencv
   - ros-rosbag
-  - ros-cv-bridge  # Install cv-bridge from the conda-forge channel
+  #- ros-cv-bridge  # Install cv-bridge from the conda-forge channel
 
