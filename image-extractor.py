@@ -2,8 +2,6 @@ import rosbag
 import cv2
 from cv_bridge import CvBridge
 import os
-import numpy as np
-
 
 class ImageExtractor:
 

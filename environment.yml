@@ -4,7 +4,6 @@ channels:
   - defaults
 dependencies:
   - python=3.8  # You can specify your desired Python version
-  - numpy
   - opencv
   - ros-rosbag
   - pillow  # Optional, for image processing if needed
