@@ -6,6 +6,5 @@ dependencies:
   - python=3.8  # You can specify your desired Python version
   - opencv
   - ros-rosbag
-  - pillow  # Optional, for image processing if needed
   - ros-cv-bridge  # Install cv-bridge from the conda-forge channel
 
