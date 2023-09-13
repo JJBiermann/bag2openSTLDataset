@@ -1,0 +1,6 @@
+environment.yml
+LICENSE
+*.Dockerfile
+Dockerfile
+build.sh
+build_base.sh
