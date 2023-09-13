@@ -1,4 +1,4 @@
-FROM miniconda:latest
+FROM miniconda-base:latest
 
 WORKDIR /app
 COPY environment.yml .
